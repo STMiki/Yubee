@@ -1,12 +1,44 @@
+#include <time.h>
+
 #define button_pin 6
 
-int enervement = 0;
+unsigned int enervement = 0;
 unsigned long test_millis = 0;
 int state = 0;
 
 unsigned int croissance_enervement = 100;
-unsigned int interval_decroissance_enervement = 1000;
+unsigned int frequence_decroissance_enervement = 1000;
 unsigned int decroissance_enervement = 10;
+
+int random(int min = -1, int max = -1) {
+	srand(time(NULL));
+
+	if (min != -1 or max != -1)
+	{
+		
+		return (rand() % (max - min + 1)) + min;
+	}
+	else
+	{
+		return rand();
+	}
+}
+
+void action(int section_interval) {
+
+
+
+}
+
+int set_interval(int enervement) {
+
+	if (enervement >= /*x_min*/ && enervement <= /*x_max*/)  // si enervement € [x_min ; x_max] alors :
+	{
+		return /*x*/; // x le numero de l'interval. (premier interval : x = 1. deuxiemme interval : x = 2. etc...)
+	}
+
+
+}
 
 void setup() {
 	pinMode(button_pin, OUTPUT);
@@ -19,14 +51,14 @@ void loop() {
  if (state == 1)
 	{	 
 		enervement += croissance_enervement;
-		test_millis = millis() + interval_decroissance_enervement;
+		test_millis = millis() + frequence_decroissance_enervement;
 	}
 
 	else
 	{
 		if (enervement > 0 && test_millis <= millis())
 		{
-			test_millis <= millis() + interval_decroissance_enervement;
+			test_millis <= millis() + frequence_decroissance_enervement;
 			enervement -= croissance_enervement;
 		}
 	}
@@ -34,7 +66,7 @@ void loop() {
 	if (enervement > 0)
 	{
 		digitalWrite(13, false);
-		//writeLed(test); // writeLed(tableau)
+		action(set_interval(enervement));
 	}
 
 	else
