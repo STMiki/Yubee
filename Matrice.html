@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Matrice programme.</title>
+    <meta charset="utf-8"/>
+    <link rel="icon" href="http://download.seaicons.com/icons/gordon-irving/activity-monitor/512/Matrix-icon.png" />
+</head>
+	<p>X : <input id="x" type="number" value="8" min="1"/></p>
+	<p>Y : <input id="y" type="number" value="8" min="1"/></p>
+	<input type="button" value="Set" onclick="SetMatrice()"/>
+
+	<div>
+		<table border="0" cellspacing="5" cellpadding="5">
+			<tbody>
+				<tr>
+					<td>
+						<table id="table" style="cursor: pointer; width: 200px; height: 200px;" border="0" cellspacing="0" cellpadding="0">
+							<tbody id="tableau_matrice">
+								
+							</tbody>
+						</table>
+					</td>
+					<td valign="top"><input onclick="resetmatrix()" type="button" value="Reset" /> <br /> Binary code:<br /> <textarea id="txtBinary" cols="28" rows="18"></textarea></td>
+					<td valign="top"><p><input id="checkbox" type="checkbox" onclick="generateBinary()" value="inverser"/> Reversed.</p></td>
+					<td valign="top"><p><input id="Ledcontrol" type="checkbox" onclick="generateBinary()" checked=true/> LedControl</p></td>
+			</tr>
+		</tbody>
+	</table>
+<script type="text/javascript"><!--
+
+	var id = 1;
+
+	window.onload = function() {SetMatrice()}
+
+		function SetMatrice()
+		{
+			document.getElementById("table").style.width = String(document.getElementById("x").value * 25) + "px";
+			document.getElementById("table").style.height = String(document.getElementById("y").value * 25) + "px";
+			var tableau = document.getElementById("tableau_matrice");
+			var TABLE = "";
+			id = 1;
+			for (var i=0;i<document.getElementById("y").value;i++)
+			{
+				TABLE += "<tr>";
+				for (var o=0;o<document.getElementById("x").value;o++)
+				{
+					TABLE += "<td id=\""+id+"\" style=\"height: 10px; width: 10px; background-color: #e2e2e0; border: 1px solid #cccccc;\" onmousedown=\"switchValue(this)\">&nbsp;0</td>";
+					id++;
+				}
+				TABLE += "</tr>";
+			}
+			tableau.innerHTML = TABLE;
+			generateBinary();
+		}
+
+		function switchValue(obj)
+		{
+			if(obj.innerHTML == "&nbsp;0")
+			{
+				obj.style.backgroundColor = "#FF0000";
+				obj.innerHTML = "&nbsp;1";
+			} else {
+				obj.style.backgroundColor = "#E2E2E0";
+				obj.innerHTML = "&nbsp;0";
+			}
+			generateBinary();
+		}
+
+		function resetmatrix()
+		{
+			var tdObj;
+			for(var i=1;i<id;i++)
+			{
+				tdObj = document.getElementById(i);
+				tdObj.style.backgroundColor = "#E2E2E0";
+				tdObj.innerHTML = "&nbsp;0";
+			}
+			generateBinary();
+		}
+
+		function generateBinary()
+		{
+			var text = "{";
+			if (document.getElementById("Ledcontrol").checked == true)
+			{
+				if (document.getElementById("checkbox").checked == false)
+				{
+					var id_temp = 1;
+					for (var i=0; i<document.getElementById("y").value;i++)
+					{
+						text += "B";
+						for (var t=0; t<document.getElementById("x").value;t++)
+						{
+							if (document.getElementById(id_temp).innerHTML == "&nbsp;0")
+								text += "0";
+							else
+								text += "1";
+							id_temp++;
+						}
+						if (id_temp != id)
+							text += ",\n";
+					}
+				}
+				else
+				{
+					var id_temp = 0;
+					for (var i=0; i<document.getElementById("y").value;i++)
+					{
+						text += "B";
+						id_temp += Number(document.getElementById("x").value);
+						for (var t=0; t<document.getElementById("x").value;t++)
+						{
+							if (id_temp > (document.getElementById("x").value * document.getElementById("y").value))
+								id_temp--;
+							if (document.getElementById(id_temp).innerHTML == "&nbsp;0")
+								text += "0";
+							else
+								text += "1";
+							id_temp--;
+						}
+						id_temp += Number(document.getElementById("x").value);
+						if (id_temp + 1 != id)
+							text += ",\n";
+					}
+				}
+			}
+			else
+			{
+				text += "{";
+				if (document.getElementById("checkbox").checked == false)
+				{
+					var id_temp = 1;
+					for (var i=0; i<document.getElementById("y").value;i++)
+					{
+						for (var t=0; t<document.getElementById("x").value;t++)
+						{
+							if (document.getElementById(id_temp).innerHTML == "&nbsp;0")
+								text += "0";
+							else
+								text += "1";
+							if (t != document.getElementById("x").value - 1)
+								text += ",";
+							id_temp++;
+						}
+						if (id_temp != id)
+							text += "},\n{";
+					}
+				}
+				else
+				{
+					var id_temp = 0;
+					for (var i=0; i<document.getElementById("y").value;i++)
+					{
+						id_temp += Number(document.getElementById("x").value);
+						for (var t=0; t<document.getElementById("x").value;t++)
+						{
+							if (id_temp > (document.getElementById("x").value * document.getElementById("y").value))
+								id_temp--;
+							if (document.getElementById(id_temp).innerHTML == "&nbsp;0")
+								text += "0";
+							else
+								text += "1";
+							if (t != document.getElementById("x").value - 1)
+								text += ",";
+							id_temp--;
+						}
+						id_temp += Number(document.getElementById("x").value);
+						if (id_temp + 1 != id)
+							text += "},\n{";
+					}
+				}
+				text += "}";
+			}
+			text += "};";
+			document.getElementById("txtBinary").value = text;
+		}
+// --></script>
+	</div>
+<body>
+
+</body>
+</html>
