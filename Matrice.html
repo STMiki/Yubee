@@ -126,24 +126,22 @@
 			}
 			else
 			{
-				text += "{";
 				if (document.getElementById("checkbox").checked == false)
 				{
 					var id_temp = 1;
 					for (var i=0; i<document.getElementById("y").value;i++)
 					{
+						text += "0b";
 						for (var t=0; t<document.getElementById("x").value;t++)
 						{
 							if (document.getElementById(id_temp).innerHTML == "&nbsp;0")
 								text += "0";
 							else
 								text += "1";
-							if (t != document.getElementById("x").value - 1)
-								text += ",";
 							id_temp++;
 						}
 						if (id_temp != id)
-							text += "},\n{";
+							text += ",\n";
 					}
 				}
 				else
@@ -151,6 +149,7 @@
 					var id_temp = 0;
 					for (var i=0; i<document.getElementById("y").value;i++)
 					{
+						text += "0b";
 						id_temp += Number(document.getElementById("x").value);
 						for (var t=0; t<document.getElementById("x").value;t++)
 						{
@@ -160,16 +159,13 @@
 								text += "0";
 							else
 								text += "1";
-							if (t != document.getElementById("x").value - 1)
-								text += ",";
 							id_temp--;
 						}
 						id_temp += Number(document.getElementById("x").value);
 						if (id_temp + 1 != id)
-							text += "},\n{";
+							text += ",\n";
 					}
 				}
-				text += "}";
 			}
 			text += "};";
 			document.getElementById("txtBinary").value = text;
