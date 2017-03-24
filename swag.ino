@@ -51,7 +51,7 @@ long test[16] = {
 };
 
 //pour afficher un truc sur l'affichage : 
-//byte tableau_affichage[16][24] = "le code sortit du site 'Matrice.html'" (on utilise pas le ledControl. il faut décocher la case. et reverse.)
+//long visage[16] = "le code sortit du site 'Matrice.html'" (on utilise pas le ledControl. il faut décocher la case. et reverse.)
 
 void loop() {
   drawMatrix(test);
